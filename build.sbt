@@ -12,8 +12,12 @@ libraryDependencies += "org.seleniumhq.selenium" % "selenium-java" % "2.41.0"
 
 libraryDependencies += "commons-lang" % "commons-lang" % "2.6"
 
-libraryDependencies ++= Seq(  
-  "org.scala-lang.modules" %% "scala-xml" % "1.1.0",
-  "org.scalikejdbc" %% "scalikejdbc"       % "2.5.3",
-  "ch.qos.logback"  %  "logback-classic"   % "1.1.2"
+libraryDependencies += "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
+
+// Scala 2.10, 2.11, 2.12
+libraryDependencies ++= Seq(
+  "org.scalikejdbc" %% "scalikejdbc"               % "2.5.2",
+  "com.h2database"  %  "h2"                        % "1.4.196",
+  "ch.qos.logback"  %  "logback-classic"           % "1.2.3"
 )
+

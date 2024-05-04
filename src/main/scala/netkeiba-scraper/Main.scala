@@ -28,7 +28,7 @@ object RaceScraper {
     val driver = new HtmlUnitDriver(false)
  
     //login
-    driver.get("https://account.netkeiba.com/?pid=login")
+    driver.get("https://regist.netkeiba.com/account/?pid=login")
     driver.findElement(By.name("login_id")).sendKeys(mail)
     driver.findElement(By.name("pswd")).sendKeys(password+"\n")
  
@@ -38,7 +38,7 @@ object RaceScraper {
       io.Source.fromFile("race_url.txt").getLines.toList.
     map{ s => val re(x) = re.findFirstIn(s).get; x }
  
-    val urls = nums.map(s => "http://db.netkeiba.com/race/" + s)
+    val urls = nums.map(s => "https://db.netkeiba.com/race/" + s)
  
     val folder = new File("html")
     if (!folder.exists()) folder.mkdir()
@@ -275,7 +275,7 @@ object RaceListScraper {
   
   def extractRaceList(baseUrl: String) = {
     "/race/list/\\d+/".r.findAllIn(io.Source.fromURL(baseUrl, "EUC-JP").mkString).toList.
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     distinct
   }
  
@@ -283,18 +283,18 @@ object RaceListScraper {
     "/\\?pid=[^\"]+".r.findFirstIn(
       io.Source.fromURL(baseList, "EUC-JP").
       getLines.filter(_.contains("race_calendar_rev_02.gif")).toList.head).
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     get
   }
  
   def extractRace(listUrl: String) = {
     "/race/\\d+/".r.findAllIn(io.Source.fromURL(listUrl, "EUC-JP").mkString).toList.
-    map("http://db.netkeiba.com" + _).
+    map("https://db.netkeiba.com" + _).
     distinct
   }
  
   def scrape(period: Int) = {
-    var baseUrl = "http://db.netkeiba.com/?pid=race_top"
+    var baseUrl = "https://db.netkeiba.com/?pid=race_top"
     var i = 0
  
     while (i < period) {
@@ -1979,8 +1979,8 @@ object Main {
   def main(args: Array[String]): Unit = {
     args.headOption match {
       case Some("collecturl") => 
-        //過去10年分のURLを収集する
-        RaceListScraper.scrape(period = 12 * 10)
+        //過去20年分のURLを収集する
+        RaceListScraper.scrape(period = 12 * 20)
       case Some("scrapehtml") => 
         RaceScraper.scrape()
       case Some("extract") => 
